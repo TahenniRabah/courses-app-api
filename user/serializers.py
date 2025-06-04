@@ -12,10 +12,16 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ('email', 'password', 'username')
+        fields = ('email', 'password', 'username', 'role')
         extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}
 
     def create(self, validated_data):
+        role = validated_data.get('role')
+        if role == 1:  # teacher
+            return get_user_model().objects.create_teacher(**validated_data)
+        elif role == 2:  # student
+            return get_user_model().objects.create_student(**validated_data)
+
         return get_user_model().objects.create_user(**validated_data)
 
     def update(self, instance, validated_data):
@@ -27,6 +33,7 @@ class UserSerializer(serializers.ModelSerializer):
             user.save()
 
         return user
+
 
 class AuthTokenSerializer(serializers.Serializer):
     """Serializer for the user auth token."""
