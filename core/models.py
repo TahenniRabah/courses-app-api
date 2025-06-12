@@ -93,3 +93,27 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Enrollment(models.Model):
+    """Enrollments of a course"""
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    enrolled_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'course')
+    def __str__(self):
+        return str(self.course) +" "+ str(self.user)
+
+class Progress(models.Model):
+    """student progress in course"""
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('user', 'course')
+
+    def __str__(self):
+        return str(self.completed) + " "+ str(self.course) +" "+ str(self.user)

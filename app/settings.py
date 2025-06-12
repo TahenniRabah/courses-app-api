@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'user',
     'course',
-    'enrollments',
 ]
 
 MIDDLEWARE = [

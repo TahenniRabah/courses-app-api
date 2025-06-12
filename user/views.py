@@ -7,7 +7,7 @@ from rest_framework.settings import api_settings
 
 from user.serializers import (
     UserSerializer,
-    AuthTokenSerializer
+    AuthTokenSerializer,
 )
 
 
@@ -30,3 +30,7 @@ class ManageUserView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+    def get_serializer_class(self):
+        return self.serializer_class
+
